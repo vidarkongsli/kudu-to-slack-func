@@ -3,11 +3,11 @@ Azure function that relays [Kudu](https://github.com/projectkudu/kudu/) deployme
 
 ## Install
 ### Fork this repo
-### Provision infrastructure in Azure
+### Provision infrastructure
+The script below will set up an Azure function app with a consumption plan in Azure.
 ```powershell
-tools\deploy.ps1 -subscriptionId <subscription> `
-  -resourceGroupName <rg> -resourceGroupLocation <location> `
-  -deploymentName <some name>
+tools\deploy.ps1 -subscriptionId <subscription> -resourceGroupName <rg> `
+  -resourceGroupLocation <location> -deploymentName <some name>
 ```
 #### Example
 ```powershell
@@ -17,6 +17,7 @@ tools\deploy.ps1 -subscriptionId 5eed131f-a31a-41ee-8159-b9610c7e7389 `
 ```
 
 ### Set up function deployment
+This will deploy the function to your function app instance. It will also set up automatic deployment when you check in to the master branch of your repository.
 ```powershell
  az functionapp deployment source config -n <name> -g <rg> --repo-url <url-to-your-repo> --branch master
 ```
@@ -24,7 +25,9 @@ tools\deploy.ps1 -subscriptionId 5eed131f-a31a-41ee-8159-b9610c7e7389 `
 * Repository URL can be for either a public or a private repository.
 #### Example
 ```powershell
- az functionapp deployment source config -n slackr -g slackr-rg --repo-url git@github.com:vidarkongsli/kudu-to-slack-func.git --branch master
+ az functionapp deployment source config -n slackr -g slackr-rg `
+  --repo-url git@github.com:vidarkongsli/kudu-to-slack-func.git `
+  --branch master
 ```
 
 ## Usage
