@@ -2,6 +2,17 @@
 Azure function that relays [Kudu](https://github.com/projectkudu/kudu/) deployment messages to Slack.
 
 ## Install
+
+Use one of the following:
+
+### Option 1:
+
+Click here: [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
+
+### Option 2:
+
+1. 
+
 ### Fork this repo
 ### Provision infrastructure
 The script below will set up an Azure function app with a consumption plan in Azure.
