@@ -1,16 +1,17 @@
 # Kudu to Slack relay webhook
+
 Azure function that relays [Kudu](https://github.com/projectkudu/kudu/) deployment messages to Slack.
 
 ## Install
 
 Use one of the following:
 
-### Option 1:
+### Option 1
 
 Click here: [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 ...and follow the instructions.
 
-### Option 2:
+### Option 2
 
 1. Make sure you have the [Azure PowerShell Module](https://docs.microsoft.com/en-us/powershell/azure/install-azurerm-ps) installed.
 1. Download  [azuredeploy.json](./azuredeploy.json)
