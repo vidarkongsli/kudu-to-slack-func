@@ -26,7 +26,7 @@
     },
     "variables": {
         "hostingPlanName": "[concat(parameters('siteName'), '-plan')]",
-        "storageAccountName": "[concat(parameters('siteName'), uniqueString(resourceGroup().id))]",
+        "storageAccountName": "[concat(take(replace(parameters('siteName'),'-',''),11), uniqueString(resourceGroup().id))]",
         "location":"[resourceGroup().location]"
     },
     "resources": [
