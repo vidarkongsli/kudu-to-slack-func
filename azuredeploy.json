@@ -4,8 +4,9 @@
     "parameters": {
         "siteName": {
             "type": "string",
-            "maxLength": 11,
-            "defaultValue": "k2s"
+            "metadata": {
+                "description":"Name of the function app, will be hosted at .azurewebsites.net"
+            }
         },
         "storageAccountType": {
             "type": "string",
