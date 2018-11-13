@@ -5,7 +5,7 @@
         "siteName": {
             "type": "string",
             "maxLength": 11,
-            "defaultValue": "kudu2slk"
+            "defaultValue": "k2s"
         },
         "storageAccountType": {
             "type": "string",
@@ -19,10 +19,6 @@
                 "description": "Storage Account type"
             }
         },
-        "location": {
-            "defaultValue": "[resourceGroup().location]",
-            "type": "string"
-        },
         "runFromPackage": {
             "type": "string",
             "defaultValue": "https://github.com/vidarkongsli/kudu-to-slack-func/releases/download/v0.0.1/82bfe5892.zip"
@@ -30,14 +26,15 @@
     },
     "variables": {
         "hostingPlanName": "[concat(parameters('siteName'), '-plan')]",
-        "storageAccountName": "[concat(parameters('siteName'), uniqueString(resourceGroup().id))]"
+        "storageAccountName": "[concat(parameters('siteName'), uniqueString(resourceGroup().id))]",
+        "location":"[resourceGroup().location]"
     },
     "resources": [
         {
             "apiVersion": "2015-08-01",
             "type": "Microsoft.Web/sites",
             "name": "[parameters('siteName')]",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "kind": "functionapp",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
@@ -83,7 +80,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('storageAccountName')]",
             "apiVersion": "2016-12-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "kind": "Storage",
             "sku": {
                 "name": "[parameters('storageAccountType')]"
@@ -102,7 +99,7 @@
             "kind": "functionapp",
             "name": "[variables('hostingPlanName')]",
             "apiVersion": "2016-09-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "scale": null,
             "properties": {
                 "name": "[variables('hostingPlanName')]",
