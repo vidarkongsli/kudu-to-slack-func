@@ -8,7 +8,7 @@ Use one of the following:
 
 ### Option 1
 
-Click here: [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
+Click here: [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/?ptmpl=azuredeploy.parameters.json)
 ...and follow the instructions.
 
 ### Option 2
