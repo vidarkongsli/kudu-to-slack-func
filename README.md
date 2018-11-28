@@ -1,6 +1,7 @@
 # Kudu to Slack relay webhook
 
 Azure function that relays [Kudu](https://github.com/projectkudu/kudu/) deployment messages to Slack.
+[![Build status](https://ci.appveyor.com/api/projects/status/sjo9glvvi4oj1k1j?svg=true)](https://ci.appveyor.com/project/VidarKongsli/kudu-to-slack-func)
 
 ## Install
 
