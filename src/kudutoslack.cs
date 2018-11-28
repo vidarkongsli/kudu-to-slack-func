@@ -10,11 +10,17 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Net;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
 
 namespace v2
 {
-    public static class kudutoslack
+    public static class KuduToSlack
     {
+        public static IServiceProvider Container = new ContainerBuilder()
+            .Register(services => services.AddSingleton<HttpClient>())
+            .Build();
+
         [FunctionName("kudutoslack")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
@@ -22,11 +28,13 @@ namespace v2
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
             var webhook = req.Query[webhookParameter].ToString();
-            if (string.IsNullOrWhiteSpace(webhook)) {
+            if (string.IsNullOrWhiteSpace(webhook))
+            {
                 return new BadRequestObjectResult($"Parameter '{webhookParameter}' is missing");
             }
             var channel = req.Query[channelParameter].ToString();
-            if (string.IsNullOrWhiteSpace(channel)) {
+            if (string.IsNullOrWhiteSpace(channel))
+            {
                 return new BadRequestObjectResult($"Parameter '{channelParameter}' is missing");
             }
 
@@ -34,7 +42,8 @@ namespace v2
 
             log.LogInformation($"Payload: {incomingJsonData}");
 
-            if (string.IsNullOrWhiteSpace(incomingJsonData)) {
+            if (string.IsNullOrWhiteSpace(incomingJsonData))
+            {
                 return new BadRequestObjectResult("No payload found in the request body");
             }
 
@@ -45,9 +54,16 @@ namespace v2
                     .Map(JsonConvert.SerializeObject);
 
             log.LogInformation($"Payload {incomingJsonData} transformed to {slackMessage}");
-            
-            var httpResponse = await _client.PostAsync(webhook,
-                slackMessage.Map(x => new StringContent(x, Encoding.UTF8, "application/json")));
+
+            var request = slackMessage
+                .Map(x => new StringContent(x, Encoding.UTF8, "application/json"))
+                .Map(x => new HttpRequestMessage(HttpMethod.Post, webhook) {
+                    Content = x
+                });
+
+            var httpResponse = await Container
+                .GetService<HttpClient>()
+                .SendAsync(request, CancellationToken.None);
 
             if (httpResponse.IsSuccessStatusCode)
             {
@@ -59,9 +75,7 @@ namespace v2
         }
 
         private const string webhookParameter = "webhook";
-        
+
         private const string channelParameter = "channel";
-        
-        private static HttpClient _client = HttpClientFactory.Create();
     }
 }
